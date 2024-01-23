@@ -52,7 +52,7 @@ def process(base_dir, input_dir, output_dir, arch, encoder, train_dataset, cross
                         num_nodes=1,
                         strategy="ddp")
     trainer.fit(model, train_dataloaders=train_dataloader, val_dataloaders=valid_dataloader)
-    trainer.save_checkpoint(f"{arch}_{encoder}_{num_epochs}epochs.ckpt")
+    trainer.save_checkpoint(os.path.join(base_dir, f"{arch}_{encoder}_{num_epochs}epochs.ckpt"))
 
 def main(arch, encoder, base_dir, input_dir, output_dir, train_dataset, cross_dataset, test_dataset, num_epochs):
     process(base_dir, input_dir, output_dir, arch, encoder, train_dataset, cross_dataset, test_dataset, num_epochs)
