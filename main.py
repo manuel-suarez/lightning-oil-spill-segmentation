@@ -79,8 +79,6 @@ if __name__ == '__main__':
         os.makedirs(base_dir, exist_ok=True)
     logging.basicConfig(filename=os.path.join("results", f"{arch}_app.log"), filemode='w', format='%(asctime)s: %(name)s %(levelname)s - %(message)s', level=logging.INFO)
     # redirect lightning logging to file
-    logger = logging.getLogger("lightning.pytorch")
-    #logger.addHandler(logging.FileHandler("core.log"))
 
     logging.info("Start!")
     encoder = 'resnet34'
