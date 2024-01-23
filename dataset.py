@@ -45,4 +45,4 @@ class OilSpillDataset(Dataset):
         label[...,0] = imread(label_path, as_gray=True).astype(np.float32)/255.0
         label = np.moveaxis(label, -1, 0)
         # Return data
-        return dict(image=image, label=label)
+        return image, label
