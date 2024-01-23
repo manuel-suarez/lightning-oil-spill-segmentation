@@ -49,6 +49,7 @@ class OilSpillModule(LightningModule):
         # Accuracy
         #acc = accuracy(tp, fp, fn, tn)
         #self.log("acc", acc)
+        self.log("train_loss", loss, sync_dist=True)
 
         return {
             "loss": loss,
@@ -85,6 +86,7 @@ class OilSpillModule(LightningModule):
         # Accuracy
         # acc = accuracy(tp, fp, fn, tn)
         # self.log("acc", acc)
+        self.log("valid_loss", loss, sync_dist=True)
 
         return {
             "loss": loss,
