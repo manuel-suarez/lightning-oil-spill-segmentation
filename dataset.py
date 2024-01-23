@@ -16,6 +16,7 @@ class OilSpillDataset(Dataset):
                  labelExt,          # File extension of label files
                  dims
                  ):
+        super().__init__()
         self.keys = keys
         self.dims = dims
         self.labelsPath = labelsPath
