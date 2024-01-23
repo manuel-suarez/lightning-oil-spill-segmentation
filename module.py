@@ -24,6 +24,7 @@ class OilSpillModule(LightningModule):
         return self.model(image)
 
     def training_step(self, batch, batch_idx):
+        print(batch, batch_idx)
         image, label = batch
         bs = image.shape[0]
         h, w = image.shape[2:]
