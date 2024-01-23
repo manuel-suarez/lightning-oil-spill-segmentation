@@ -83,12 +83,12 @@ class OilSpillModule(LightningModule):
         # IoU
         tp, fp, fn, tn = get_stats(preds.long(), label.long(), mode="binary")
         # Accuracy
-        acc = accuracy(tp, fp, fn, tn)
-        self.log("acc", acc)
+        # acc = accuracy(tp, fp, fn, tn)
+        # self.log("acc", acc)
 
         return {
             "loss": loss,
-            "acc": acc,
+            # "acc": acc,
             "tp": tp,
             "fp": fp,
             "fn": fn,
