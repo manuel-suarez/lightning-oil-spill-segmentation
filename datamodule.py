@@ -50,6 +50,16 @@ class OilSpillDataModule(LightningDataModule):
                 self.feature_ext,
                 self.label_ext,
                 self.dims)
+        elif stage == "predict":
+            testSet = pd.read_csv(self.test_dataset)
+            self.test_set = OilSpillDataset(
+                testSet['key'],
+                self.features_path,
+                self.labels_path,
+                self.features_channels,
+                self.feature_ext,
+                self.label_ext,
+                self.dims)
 
     def train_dataloader(self):
         return DataLoader(self.train_dataset, batch_size=32, shuffle=True, num_workers=os.cpu_count())
@@ -58,4 +68,7 @@ class OilSpillDataModule(LightningDataModule):
         return DataLoader(self.valid_dataset, batch_size=32, shuffle=False, num_workers=os.cpu_count())
 
     def test_dataloader(self):
+        return DataLoader(self.test_dataset, batch_size=32, shuffle=False, num_workers=os.cpu_count())
+
+    def predict_dataloader(self):
         return DataLoader(self.test_dataset, batch_size=32, shuffle=False, num_workers=os.cpu_count())
