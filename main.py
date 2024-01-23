@@ -33,9 +33,9 @@ def process(input_dir, output_dir, arch, encoder, train_dataset, cross_dataset, 
         os.makedirs(logs_dir, exist_ok=True)
 
     # Samples
-    save_figure(datamodule.train_dataset, "Train", os.path.join(figures_dir, "figure_01.png"))
-    save_figure(datamodule.valid_dataset, "Valid", os.path.join(figures_dir, "figure_02.png"))
-    save_figure(datamodule.test_dataset, "Test", os.path.join(figures_dir, "figure_03.png"))
+    # save_figure(datamodule.train_dataset, "Train", os.path.join(figures_dir, "figure_01.png"))
+    # save_figure(datamodule.valid_dataset, "Valid", os.path.join(figures_dir, "figure_02.png"))
+    # save_figure(datamodule.test_dataset, "Test", os.path.join(figures_dir, "figure_03.png"))
 
 def main(arch, encoder, input_dir, output_dir, train_dataset, cross_dataset, test_dataset, num_epochs):
     process(input_dir, output_dir, arch, encoder, train_dataset, cross_dataset, test_dataset, num_epochs)
