@@ -7,7 +7,7 @@ from dataset import OilSpillDataset
 from module import OilSpillModule
 from utils import save_figure
 
-def process(input_dir, output_dir, arch, encoder, train_dataset, cross_dataset, test_dataset, num_epochs):
+def process(base_dir, input_dir, output_dir, arch, encoder, train_dataset, cross_dataset, test_dataset, num_epochs):
     logging.info("Begin process")
     logging.info(f"\tArchitecture: {arch}")
     logging.info(f"\tEncoder: {encoder}")
@@ -21,7 +21,6 @@ def process(input_dir, output_dir, arch, encoder, train_dataset, cross_dataset, 
     #logging.info(f"\tValid dataset size: {len(datamodule.valid_dataset)}")
     #logging.info(f"\tTest dataset size: {len(datamodule.test_dataset)}")
 
-    base_dir = "results"
     figures_dir = os.path.join(base_dir, f"{arch}_figures")
     results_dir = os.path.join(base_dir, f"{arch}_results")
     logs_dir = os.path.join(base_dir, f"{arch}_logs")
@@ -41,8 +40,8 @@ def process(input_dir, output_dir, arch, encoder, train_dataset, cross_dataset, 
     encoder = "resnet34"
     model = OilSpillModule(arch, encoder=encoder, in_channels=3, out_classes=1)
 
-def main(arch, encoder, input_dir, output_dir, train_dataset, cross_dataset, test_dataset, num_epochs):
-    process(input_dir, output_dir, arch, encoder, train_dataset, cross_dataset, test_dataset, num_epochs)
+def main(arch, encoder, base_dir, input_dir, output_dir, train_dataset, cross_dataset, test_dataset, num_epochs):
+    process(base_dir, input_dir, output_dir, arch, encoder, train_dataset, cross_dataset, test_dataset, num_epochs)
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
@@ -60,14 +59,16 @@ if __name__ == '__main__':
     parser.add_argument('num_epochs')
     args = parser.parse_args()
     arch = args.arch
+    base_dir = "results"
+    if not os.path.exists(base_dir):
+        os.makedirs(base_dir, exist_ok=True)
     logging.basicConfig(filename=os.path.join("results", f"{arch}_app.log"), filemode='w', format='%(asctime)s: %(name)s %(levelname)s - %(message)s', level=logging.INFO)
-
     # redirect lightning logging to file
     logger = logging.getLogger("lightning.pytorch")
     #logger.addHandler(logging.FileHandler("core.log"))
 
     logging.info("Start!")
     encoder = 'resnet34'
-    main(arch, encoder, args.input_dir, args.output_dir, args.train_dataset, args.cross_dataset, args.test_dataset, int(args.num_epochs))
+    main(arch, encoder, base_dir, args.input_dir, args.output_dir, args.train_dataset, args.cross_dataset, args.test_dataset, int(args.num_epochs))
     logging.info("Done!")
     print("Done!")
