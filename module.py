@@ -97,5 +97,42 @@ class OilSpillModule(LightningModule):
             "tn": tn
         }
 
+    def test_step(self, batch, batch_idx):
+        image, label = batch
+        bs = image.shape[0]
+        h, w = image.shape[2:]
+
+        assert image.ndim == 4
+        assert image.shape == (bs, 3, h, w) # Multichannel dataset
+
+        #label = batch["label"]
+        assert label.ndim == 4
+        assert label.shape == (bs, self.classes, h, w)
+
+        assert label.max() <= 1 and label.min() >= 0
+
+        logits = self.forward(image)
+        loss = self.loss_fn(logits, label)
+
+        # Metrics
+        probs = logits.sigmoid()
+        preds = (probs > 0.5).float()
+
+        # IoU
+        tp, fp, fn, tn = get_stats(preds.long(), label.long(), mode="binary")
+        # Accuracy
+        # acc = accuracy(tp, fp, fn, tn)
+        # self.log("acc", acc)
+        self.log("test_loss", loss, sync_dist=True)
+
+        return {
+            "loss": loss,
+            # "acc": acc,
+            "tp": tp,
+            "fp": fp,
+            "fn": fn,
+            "tn": tn
+        }
+
     def configure_optimizers(self):
         return torch.optim.Adam(self.parameters(), lr=0.001)
