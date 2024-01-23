@@ -4,7 +4,7 @@ import logging
 import argparse
 import lightning as L
 from datamodule import OilSpillDataModule
-from dataset import OilSpillDataset
+from dataset import OilSpillDataset, create_datasets, create_dataloaders
 from module import OilSpillModule
 from utils import save_figure
 
@@ -15,12 +15,15 @@ def process(base_dir, input_dir, output_dir, arch, encoder, train_dataset, cross
     logging.info(f"\tInput dir: {input_dir}")
     logging.info(f"\tOutput dir: {output_dir}")
     classes = OilSpillDataset.CLASSES
+    train_dataset, valid_dataset, test_dataset = create_datasets(input_dir, train_dataset, cross_dataset, test_dataset)
 
     logging.info("1.- Datamodule configuration")
-    datamodule = OilSpillDataModule(input_dir, train_dataset, cross_dataset, test_dataset)
-    #logging.info(f"\tTrain dataset size: {len(datamodule.train_dataset)}")
-    #logging.info(f"\tValid dataset size: {len(datamodule.valid_dataset)}")
-    #logging.info(f"\tTest dataset size: {len(datamodule.test_dataset)}")
+    logging.info(f"\tTrain dataset size: {len(train_dataset)}")
+    logging.info(f"\tValid dataset size: {len(valid_dataset)}")
+    logging.info(f"\tTest dataset size: {len(test_dataset)}")
+
+    train_dataloader, valid_dataloader, test_dataloader = create_dataloaders(os.cpu_count(), train_dataset,
+                                                                             valid_dataset, test_dataset)
 
     figures_dir = os.path.join(base_dir, f"{arch}_figures")
     results_dir = os.path.join(base_dir, f"{arch}_results")
@@ -48,7 +51,7 @@ def process(base_dir, input_dir, output_dir, arch, encoder, train_dataset, cross
                         devices=2,
                         num_nodes=1,
                         strategy="ddp")
-    trainer.fit(model, datamodule=datamodule)
+    trainer.fit(model, train_dataloaders=train_dataloader, val_dataloaders=valid_dataloader)
     trainer.save_checkpoint(f"{arch}_{encoder}_{num_epochs}epochs.ckpt")
 
 def main(arch, encoder, base_dir, input_dir, output_dir, train_dataset, cross_dataset, test_dataset, num_epochs):
