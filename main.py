@@ -17,9 +17,9 @@ def process(input_dir, output_dir, arch, encoder, train_dataset, cross_dataset, 
 
     logging.info("1.- Datamodule configuration")
     datamodule = OilSpillModule(arch, encoder, in_channels=3, classes=len(classes))
-    logging.info(f"\tTrain dataset size: {len(datamodule.train_dataset)}")
-    logging.info(f"\tValid dataset size: {len(datamodule.valid_dataset)}")
-    logging.info(f"\tTest dataset size: {len(datamodule.test_dataset)}")
+    #logging.info(f"\tTrain dataset size: {len(datamodule.train_dataset)}")
+    #logging.info(f"\tValid dataset size: {len(datamodule.valid_dataset)}")
+    #logging.info(f"\tTest dataset size: {len(datamodule.test_dataset)}")
 
     base_dir = "results"
     figures_dir = os.path.join(base_dir, f"{arch}_figures")
