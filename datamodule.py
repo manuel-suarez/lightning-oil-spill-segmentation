@@ -7,6 +7,7 @@ from torch.utils.data import DataLoader
 
 class OilSpillDataModule(LightningDataModule):
     def __init__(self, data_dir, train_dataset, valid_dataset, test_dataset):
+        super().__init__()
         self.features_path = os.path.join(data_dir, 'features')
         self.labels_path = os.path.join(data_dir, 'labels')
         self.feature_ext = '.tiff'
