@@ -46,7 +46,7 @@ def process(base_dir, input_dir, output_dir, arch, encoder, train_dataset, cross
 
     logging.info("3.- Model training")
     trainer = L.Trainer(max_epochs=num_epochs,
-                        default_root_dir=os.path.join(base_dir, f"{arch}_{encoder}"),
+                        default_root_dir=logs_dir,
                         accelerator="auto",
                         devices=2,
                         num_nodes=1,
