@@ -37,6 +37,10 @@ def process(input_dir, output_dir, arch, encoder, train_dataset, cross_dataset, 
     # save_figure(datamodule.valid_dataset, "Valid", os.path.join(figures_dir, "figure_02.png"))
     # save_figure(datamodule.test_dataset, "Test", os.path.join(figures_dir, "figure_03.png"))
 
+    logging.info("2.- Model instantiation")
+    encoder = "resnet34"
+    model = OilSpillModule(arch, encoder=encoder, in_channels=3, out_classes=1)
+
 def main(arch, encoder, input_dir, output_dir, train_dataset, cross_dataset, test_dataset, num_epochs):
     process(input_dir, output_dir, arch, encoder, train_dataset, cross_dataset, test_dataset, num_epochs)
 
@@ -56,7 +60,7 @@ if __name__ == '__main__':
     parser.add_argument('num_epochs')
     args = parser.parse_args()
     arch = args.arch
-    logging.basicConfig(filename=f"{arch}_app.log", filemode='w', format='%(asctime)s: %(name)s %(levelname)s - %(message)s', level=logging.INFO)
+    logging.basicConfig(filename=os.path.join("results", f"{arch}_app.log"), filemode='w', format='%(asctime)s: %(name)s %(levelname)s - %(message)s', level=logging.INFO)
 
     # redirect lightning logging to file
     logger = logging.getLogger("lightning.pytorch")
@@ -66,3 +70,4 @@ if __name__ == '__main__':
     encoder = 'resnet34'
     main(arch, encoder, args.input_dir, args.output_dir, args.train_dataset, args.cross_dataset, args.test_dataset, int(args.num_epochs))
     logging.info("Done!")
+    print("Done!")
