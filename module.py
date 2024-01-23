@@ -24,15 +24,14 @@ class OilSpillModule(LightningModule):
         return self.model(image)
 
     def training_step(self, batch, batch_idx):
-        print(batch)
-        image = batch["image"]
+        image, label = batch
         bs = image.shape[0]
         h, w = image.shape[2:]
 
         assert image.ndim == 4
         assert image.shape == (bs, 3, h, w) # Multichannel dataset
 
-        label = batch["label"]
+        #label = batch["label"]
         assert label.ndim == 4
         assert label.shape == (bs, self.classes, h, w)
 
