@@ -2,6 +2,7 @@ import os
 import torch
 import logging
 import argparse
+import lightning as L
 from datamodule import OilSpillDataModule
 from dataset import OilSpillDataset
 from module import OilSpillModule
@@ -39,6 +40,16 @@ def process(base_dir, input_dir, output_dir, arch, encoder, train_dataset, cross
     logging.info("2.- Model instantiation")
     encoder = "resnet34"
     model = OilSpillModule(arch, encoder_name=encoder, in_channels=3, classes=1)
+
+    logging.info("3.- Model training")
+    trainer = L.Trainer(max_epochs=num_epochs,
+                        default_root_dir=os.path.join(base_dir, f"{arch}_{encoder}"),
+                        accelerator="auto",
+                        devices=2,
+                        num_nodes=1,
+                        strategy="ddp")
+    trainer.fit(model, datamodule=datamodule)
+    trainer.save_checkpoint(f"{arch}_{encoder}_{num_epochs}epochs.ckpt")
 
 def main(arch, encoder, base_dir, input_dir, output_dir, train_dataset, cross_dataset, test_dataset, num_epochs):
     process(base_dir, input_dir, output_dir, arch, encoder, train_dataset, cross_dataset, test_dataset, num_epochs)
