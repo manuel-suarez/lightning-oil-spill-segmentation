@@ -71,7 +71,7 @@ for (j,i) in tqdm(zip(range(0, ny), range(0, nx))):
     print(z.shape)
     with torch.no_grad():
         #overlay[y:y + height_patch, x:x + width_patch] = model(z)
-        prediction = model(z)
+        prediction = model(z.float())
         print(prediction.shape)
 
 print(overlay.shape)
