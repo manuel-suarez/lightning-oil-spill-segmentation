@@ -4,7 +4,7 @@ import logging
 import argparse
 import lightning as L
 from datamodule import OilSpillDataModule
-from dataset import OilSpillDataset, create_datasets, create_dataloaders
+from dataset import OilSpillTrainingDataset, create_datasets, create_dataloaders
 from module import OilSpillModule
 from utils import save_figure
 
@@ -14,7 +14,7 @@ def process(base_dir, input_dir, output_dir, arch, encoder, train_dataset, cross
     logging.info(f"\tEncoder: {encoder}")
     logging.info(f"\tInput dir: {input_dir}")
     logging.info(f"\tOutput dir: {output_dir}")
-    classes = OilSpillDataset.CLASSES
+    classes = OilSpillTrainingDataset.CLASSES
     train_dataset, valid_dataset, test_dataset = create_datasets(input_dir, train_dataset, cross_dataset, test_dataset)
 
     logging.info("1.- Datamodule configuration")

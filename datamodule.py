@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 
-from dataset import OilSpillDataset
+from dataset import OilSpillTrainingDataset
 from lightning import LightningDataModule
 from torch.utils.data import DataLoader
 
@@ -24,7 +24,7 @@ class OilSpillDataModule(LightningDataModule):
         if stage == "fit":
             trainSet = pd.read_csv(self.train_dataset)
             validSet = pd.read_csv(self.valid_dataset)
-            self.train_set = OilSpillDataset(
+            self.train_set = OilSpillTrainingDataset(
                 trainSet["key"],
                 self.features_path,
                 self.labels_path,
@@ -32,7 +32,7 @@ class OilSpillDataModule(LightningDataModule):
                 self.feature_ext,
                 self.label_ext,
                 self.dims)
-            self.valid_set = OilSpillDataset(
+            self.valid_set = OilSpillTrainingDataset(
                 validSet["key"],
                 self.features_path,
                 self.labels_path,
@@ -42,7 +42,7 @@ class OilSpillDataModule(LightningDataModule):
                 self.dims)
         elif stage == "test":
             testSet = pd.read_csv(self.test_dataset)
-            self.test_set = OilSpillDataset(
+            self.test_set = OilSpillTrainingDataset(
                 testSet['key'],
                 self.features_path,
                 self.labels_path,
@@ -52,7 +52,7 @@ class OilSpillDataModule(LightningDataModule):
                 self.dims)
         elif stage == "predict":
             testSet = pd.read_csv(self.test_dataset)
-            self.test_set = OilSpillDataset(
+            self.test_set = OilSpillTrainingDataset(
                 testSet['key'],
                 self.features_path,
                 self.labels_path,

@@ -4,7 +4,7 @@ import pandas as pd
 from torch.utils.data import Dataset, DataLoader
 from skimage.io import imread
 
-class OilSpillDataset(Dataset):
+class OilSpillTrainingDataset(Dataset):
     # List of classes (binary segmentation)
     CLASSES = ['oil', 'not oil']
 
@@ -60,9 +60,9 @@ def create_datasets(data_dir, train_dataset, cross_dataset, test_dataset):
     crossvalidSet = pd.read_csv(cross_dataset)
     testingSet = pd.read_csv(test_dataset)
     return (
-        OilSpillDataset(trainingSet["key"], featuresPath, labelsPath, featuresChannels, featureExt, labelExt, dims),
-        OilSpillDataset(crossvalidSet["key"], featuresPath, labelsPath, featuresChannels, featureExt, labelExt, dims),
-        OilSpillDataset(testingSet['key'], featuresPath, labelsPath, featuresChannels, featureExt, labelExt, dims)
+        OilSpillTrainingDataset(trainingSet["key"], featuresPath, labelsPath, featuresChannels, featureExt, labelExt, dims),
+        OilSpillTrainingDataset(crossvalidSet["key"], featuresPath, labelsPath, featuresChannels, featureExt, labelExt, dims),
+        OilSpillTrainingDataset(testingSet['key'], featuresPath, labelsPath, featuresChannels, featureExt, labelExt, dims)
     )
 
 def create_dataloaders(n_cpu, train_dataset, valid_dataset, test_dataset):
