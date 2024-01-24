@@ -39,6 +39,7 @@ predictions = np.array([p.numpy() for p in predictions])
 print(predictions.shape)
 
 result = rearrange(predictions, 'i j c h w -> (i h) (j w) c')
-print(result.shape)
-#print(predictions)
+print(result.shape, np.max(result), np.min(result))
+
+#imsave(f"{}_result.png")
 print("Done!")
