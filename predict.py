@@ -32,6 +32,13 @@ varfile = os.path.join(img_dir, f"{keyfile}_var.tif")
 varimage = np.array(Image.open(varfile))
 
 print(varfile, varimage.shape)
+
 # Compose multichannel image
+x = np.zeros((normimage.shape[0], normimage.shape[1], 3))
+# origin-origin-var
+x[:, :, 0] = normimage
+x[:, :, 1] = normimage
+x[:, :, 2] = varimage
+print(x.shape)
 
 # Predict
