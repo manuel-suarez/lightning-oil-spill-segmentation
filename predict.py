@@ -28,7 +28,7 @@ model.float()
 # Create image dataset
 dataset = OilSpillPredictionDataset(args.imagedir, args.imagekey)
 dataloader = DataLoader(dataset, batch_size=64, shuffle=False, num_workers=os.cpu_count()//2)
-trainer = L.Trainer()
+trainer = L.Trainer(devices=1)
 predictions = trainer.predict(model, dataloader)
 
 print(len(predictions))
