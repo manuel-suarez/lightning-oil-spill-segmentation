@@ -65,6 +65,7 @@ for (j,i) in tqdm(zip(range(0, ny), range(0, nx))):
         y = height - height_patch - 1
 
     z = src[y:y + height_patch, x:x + width_patch, ...]
+    z = np.moveaxis(z, -1, 0)
     with torch.no_grad():
         overlay[y:y + height_patch, x:x + width_patch] = model(z)
 
