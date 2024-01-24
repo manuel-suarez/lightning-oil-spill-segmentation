@@ -25,9 +25,9 @@ def process(base_dir, input_dir, output_dir, arch, encoder, train_dataset, cross
     train_dataloader, valid_dataloader, test_dataloader = create_dataloaders(os.cpu_count(), train_dataset,
                                                                              valid_dataset, test_dataset)
 
-    figures_dir = os.path.join(base_dir, f"{arch}_figures")
-    results_dir = os.path.join(base_dir, f"{arch}_results")
-    logs_dir = os.path.join(base_dir, f"{arch}_logs")
+    figures_dir = os.path.join(base_dir, "figures")
+    results_dir = os.path.join(base_dir, "results")
+    logs_dir = os.path.join(base_dir, "logs")
     if not os.path.exists(figures_dir):
         os.makedirs(figures_dir, exist_ok=True)
     if not os.path.exists(results_dir):
@@ -53,7 +53,7 @@ def process(base_dir, input_dir, output_dir, arch, encoder, train_dataset, cross
                         num_nodes=1,
                         strategy="ddp")
     trainer.fit(model, train_dataloaders=train_dataloader, val_dataloaders=valid_dataloader)
-    trainer.save_checkpoint(os.path.join(base_dir, f"{arch}_{encoder}_{num_epochs}epochs.ckpt"))
+    trainer.save_checkpoint(os.path.join(base_dir, f"{encoder}_{num_epochs}epochs.ckpt"))
 
     logging.info("4.- Model testing")
     trainer.test(model, dataloaders=test_dataloader)
@@ -77,10 +77,10 @@ if __name__ == '__main__':
     parser.add_argument('num_epochs')
     args = parser.parse_args()
     arch = args.arch
-    base_dir = "results"
+    base_dir = os.path.join("results", arch)
     if not os.path.exists(base_dir):
         os.makedirs(base_dir, exist_ok=True)
-    logging.basicConfig(filename=os.path.join("results", f"{arch}_app.log"), filemode='w', format='%(asctime)s: %(name)s %(levelname)s - %(message)s', level=logging.INFO)
+    logging.basicConfig(filename=os.path.join("results", "app.log"), filemode='w', format='%(asctime)s: %(name)s %(levelname)s - %(message)s', level=logging.INFO)
     # redirect lightning logging to file
 
     logging.info("Start!")
