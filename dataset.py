@@ -1,4 +1,5 @@
 import os
+import itertools
 import numpy as np
 import pandas as pd
 from torch.utils.data import Dataset, DataLoader
@@ -78,7 +79,7 @@ class OilSpillPredictionDataset(Dataset):
         self.ny = self.heigth // self.patch_height + 1
         print(f"Parches, nx: {self.nx}, ny: {self.ny}")
 
-        self.ranges = list(zip(range(0, self.ny), range(0, self.nx)))
+        self.ranges = list(itertools.product(range(0, self.ny), range(0, self.nx)))
         print(f"Num parches: {len(self.ranges)}, {self.nx * self.ny}")
 
     def __len__(self):
