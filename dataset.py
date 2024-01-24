@@ -56,8 +56,10 @@ class OilSpillPredictionDataset(Dataset):
         base_dir = os.path.join(image_dir, image_key)
         normfile = os.path.join(base_dir, f"{image_key}_norm.tif")
         normimage = imread(normfile, as_gray=True).astype(np.float16)
+        print(f"Norm image shape: {normimage.shape}")
         varfile = os.path.join(base_dir, f"{image_key}_var.tif")
         varimage = imread(varfile, as_gray=True).astype(np.float16)
+        print(f"Var image shape: {varimage.shape}")
 
         self.heigth = normimage.shape[0]
         self.width = normimage.shape[1]
@@ -67,14 +69,17 @@ class OilSpillPredictionDataset(Dataset):
         self.src[:, :, 0] = normimage
         self.src[:, :, 1] = normimage
         self.src[:, :, 2] = varimage
+        print(f"Multichannel image shape: {self.src.shape}")
 
         self.patch_width = patch_size
         self.patch_height = patch_size
 
         self.nx = self.width // self.patch_width + 1
         self.ny = self.heigth // self.patch_height + 1
+        print(f"Parches, nx: {self.nx}, ny: {self.ny}")
 
         self.ranges = list(zip(range(0, self.ny), range(0, self.nx)))
+        print(f"Num parches: {len(self.ranges)}, {self.nx * self.ny}")
 
     def __len__(self):
         return len(self.ranges)
