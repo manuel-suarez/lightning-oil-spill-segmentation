@@ -80,7 +80,7 @@ if __name__ == '__main__':
     base_dir = os.path.join("results", arch)
     if not os.path.exists(base_dir):
         os.makedirs(base_dir, exist_ok=True)
-    logging.basicConfig(filename=os.path.join("results", "app.log"), filemode='w', format='%(asctime)s: %(name)s %(levelname)s - %(message)s', level=logging.INFO)
+    logging.basicConfig(filename=os.path.join(base_dir, "app.log"), filemode='w', format='%(asctime)s: %(name)s %(levelname)s - %(message)s', level=logging.INFO)
     # redirect lightning logging to file
 
     logging.info("Start!")
