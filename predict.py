@@ -7,6 +7,7 @@ from einops import rearrange
 from module import OilSpillModule
 from dataset import OilSpillPredictionDataset
 from torch.utils.data import DataLoader
+from skimage.io import imsave
 
 # Parse arguments
 parser = argparse.ArgumentParser(
