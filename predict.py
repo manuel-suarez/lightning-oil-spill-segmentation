@@ -34,5 +34,5 @@ predictions = trainer.predict(model, dataloader)
 
 print(len(predictions))
 print(predictions[0].shape)
-print(predictions)
+#print(predictions)
 print("Done!")
