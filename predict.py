@@ -1,6 +1,7 @@
 import os
 import argparse
 import numpy as np
+import torch
 from PIL import Image
 from module import OilSpillModule
 
@@ -41,4 +42,30 @@ x[:, :, 1] = normimage
 x[:, :, 2] = varimage
 print(x.shape)
 
-# Predict
+# Predict in patches
+width = x.shape[1]
+height = x.shape[0]
+
+width_patch = 224
+height_patch = 224
+
+overlay = np.zeros((height, width), np.uint8)
+
+nx = width // width_patch + 1
+ny = height // height_patch + 1
+
+for j in range(0, ny):
+    for i in range(0, nx):
+        y = height_patch * j
+        x = width_patch * i
+
+        if (x + width_patch > width):
+            x = width - width_patch - 1
+        if (y + height_patch > height):
+            y = height - height_patch - 1
+
+        z = x[y:y + height_patch, x:x + width_patch, ...]
+        with torch.no_grad():
+            overlay[y:y + height_patch, x:x + width_patch] = model(z)
+
+print(z.shape, overlay.shape)
