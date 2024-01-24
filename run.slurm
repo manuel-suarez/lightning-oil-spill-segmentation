@@ -6,6 +6,8 @@
 #SBATCH --time=0
 #SBATCH --mail-user=manuel.suarez@cimat.mx
 #SBATCH --mail-type=ALL
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=2
 
 # Dataset Cimat paths
 num_dataset=20

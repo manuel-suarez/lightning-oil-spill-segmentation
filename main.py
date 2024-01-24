@@ -48,7 +48,7 @@ def process(base_dir, input_dir, output_dir, arch, encoder, train_dataset, cross
     trainer = L.Trainer(max_epochs=num_epochs,
                         logger=True,
                         default_root_dir=logs_dir,
-                        accelerator="auto",
+                        accelerator="gpu",
                         devices=2,
                         num_nodes=1,
                         strategy="ddp")
