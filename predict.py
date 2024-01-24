@@ -37,7 +37,7 @@ print(type(predictions[0]))
 predictions = np.array([p.numpy() for p in predictions])
 print(predictions.shape)
 
-result = rearrange(predictions, 'i j c h w -> c (i h) (j w)')
+result = rearrange(predictions, 'i j c h w -> (i h) (j w) c')
 print(result.shape)
 #print(predictions)
 print("Done!")
