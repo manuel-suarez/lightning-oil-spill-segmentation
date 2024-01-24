@@ -18,7 +18,7 @@ parser.add_argument('imagekey')
 args = parser.parse_args()
 # logging
 logging.basicConfig(filename=f"{args.imagekey}_predict.log", filemode='w',
-                    format='%(asctime)s: %(name)s %(levelname)s - %(message)s', level=logging.INFO)
+                    format='%(message)s', level=logging.INFO)
 
 # Load checkpoint
 model = OilSpillModule.load_from_checkpoint(args.checkpoint)

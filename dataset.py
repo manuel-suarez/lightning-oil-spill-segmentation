@@ -88,7 +88,7 @@ class OilSpillPredictionDataset(Dataset):
 
     def __getitem__(self, index):
         (j,i) = self.ranges[index]
-        logging.info(f"Getting {index} patch, (j,i)=({j},{i})")
+        logging.info(f"{index} patch, (j,i)=({j},{i})")
 
         x = self.patch_width * i
         y = self.patch_height * j
