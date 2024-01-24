@@ -18,7 +18,7 @@ parser.add_argument('keyfile')
 args = parser.parse_args()
 keyfile = args.keyfile
 img_dir = os.path.join(args.basedir, keyfile)
-print(img_dir)
+print(f"Images dir: {img_dir}")
 
 # Load checkpoint
 model = OilSpillModule.load_from_checkpoint(args.checkpoint)
@@ -28,12 +28,12 @@ model.eval()
 normfile = os.path.join(img_dir, f"{keyfile}_norm.tif")
 normimage = np.array(Image.open(normfile))
 
-print(normfile, normimage.shape)
+print(f"Norm file: {normfile}, shape: {normimage.shape}")
 # Open variance file
 varfile = os.path.join(img_dir, f"{keyfile}_var.tif")
 varimage = np.array(Image.open(varfile))
 
-print(varfile, varimage.shape)
+print(f"Variance file: {varfile}, shape: {varimage.shape}")
 
 # Compose multichannel image
 src = np.zeros((normimage.shape[0], normimage.shape[1], 3))
@@ -41,7 +41,7 @@ src = np.zeros((normimage.shape[0], normimage.shape[1], 3))
 src[:, :, 0] = normimage
 src[:, :, 1] = normimage
 src[:, :, 2] = varimage
-print(src.shape)
+print(f"Multichannel image shape: {src.shape}")
 
 # Predict in patches
 width = src.shape[1]
@@ -64,7 +64,7 @@ for (j,i) in tqdm(zip(range(0, ny), range(0, nx))):
     if (y + height_patch > height):
         y = height - height_patch - 1
 
-    z = x[y:y + height_patch, x:x + width_patch, ...]
+    z = src[y:y + height_patch, x:x + width_patch, ...]
     with torch.no_grad():
         overlay[y:y + height_patch, x:x + width_patch] = model(z)
 
