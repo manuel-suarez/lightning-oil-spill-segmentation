@@ -55,7 +55,7 @@ overlay = np.zeros((height, width), np.uint8)
 
 nx = width // width_patch + 1
 ny = height // height_patch + 1
-
+tr = transforms.ToTensor()
 for (j,i) in tqdm(zip(range(0, ny), range(0, nx))):
     y = height_patch * j
     x = width_patch * i
@@ -66,7 +66,7 @@ for (j,i) in tqdm(zip(range(0, ny), range(0, nx))):
         y = height - height_patch - 1
 
     z = src[y:y + height_patch, x:x + width_patch, ...]
-    z = transforms.ToTensor(z)
+    z = tr(z)
     print(z.shape)
     with torch.no_grad():
         #overlay[y:y + height_patch, x:x + width_patch] = model(z)
