@@ -32,6 +32,7 @@ dataloader = DataLoader(dataset, batch_size=67, shuffle=False, num_workers=os.cp
 trainer = L.Trainer(devices=1)
 predictions = trainer.predict(model, dataloader)
 print(type(predictions))
+print(type(predictions[0]))
 #predictions = np.array(predictions)
 #print(predictions.shape)
 
