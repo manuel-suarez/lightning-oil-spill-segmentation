@@ -21,6 +21,6 @@ testdataset=$input_path/learnigCSV_geo/testingFiles/test$num_dataset'.csv'
 #arch='PSPNet'
 for arch in Unet #UnetPlusPlus MAnet Linknet FPN PSPNet PAN DeepLabV3 DeepLabV3Plus
 do
-  ~/miniconda3/envs/py38/bin/python main.py $arch $input_path $output_path $traindataset $crossdataset $testdataset $num_epochs
+  srun ~/miniconda3/envs/py38/bin/python main.py $arch $input_path $output_path $traindataset $crossdataset $testdataset $num_epochs
 done
 echo 'Done!'
