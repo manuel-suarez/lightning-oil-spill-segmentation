@@ -74,7 +74,7 @@ class OilSpillPredictionDataset(Dataset):
         self.nx = self.width // self.patch_width + 1
         self.ny = self.heigth // self.patch_height + 1
 
-        self.ranges = zip(range(0, self.ny), range(0, self.nx))
+        self.ranges = list(zip(range(0, self.ny), range(0, self.nx)))
 
     def __len__(self):
         return len(self.ranges)
