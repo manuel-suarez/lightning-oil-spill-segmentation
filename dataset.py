@@ -49,6 +49,51 @@ class OilSpillTrainingDataset(Dataset):
         # Return data
         return image, label
 
+class OilSpillPredictionDataset(Dataset):
+    def __init__(self, image_dir, image_key, patch_size = 224):
+        super().__init__()
+        # Open and prepare multichannel image
+        base_dir = os.path.join(image_dir, image_key)
+        normfile = os.path.join(base_dir, f"{image_key}_norm.tif")
+        normimage = imread(normfile, as_gray=True).astype(np.float32)
+        varfile = os.path.join(base_dir, f"{image_key}_var.tif")
+        varimage = imread(varfile, as_gray=True).astype(np.float32)
+
+        self.heigth = normimage.shape[0]
+        self.width = normimage.shape[1]
+        # Multichannel image
+        self.src = np.zeros((self.heigth, self.width, 3))
+        # origin-origin-var
+        self.src[:, :, 0] = normimage
+        self.src[:, :, 1] = normimage
+        self.src[:, :, 2] = varimage
+
+        self.patch_width = patch_size
+        self.patch_height = patch_size
+
+        self.nx = self.width // self.patch_width + 1
+        self.ny = self.heigth // self.patch_height + 1
+
+        self.ranges = zip(range(0, self.ny), range(0, self.nx))
+
+    def __len__(self):
+        return len(self.ranges)
+
+    def __getitem__(self, index):
+        (j,i) = self.ranges[index]
+
+        x = self.patch_width * i
+        y = self.patch_height * j
+        if (x + self.patch_width > self.width):
+            x = self.width - self.patch_width - 1
+        if (y + self.patch_height > self.heigth):
+            y = self.heigth - self.patch_height - 1
+
+        patch = self.src[y:y + self.patch_height, x:x + self.patch_width, ...]
+        patch = np.moveaxis(patch, -1, 0)
+
+        return patch
+
 def create_datasets(data_dir, train_dataset, cross_dataset, test_dataset):
     featuresPath = os.path.join(data_dir, 'features')
     labelsPath = os.path.join(data_dir, 'labels')

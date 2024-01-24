@@ -1,3 +1,5 @@
+from typing import Any
+
 import torch
 import logging
 from lightning import LightningModule
@@ -134,6 +136,9 @@ class OilSpillModule(LightningModule):
             "fn": fn,
             "tn": tn
         }
+
+    def predict_step(self, batch, batch_idx, dataloader_idx=0):
+        return self(batch)
 
     def configure_optimizers(self):
         return torch.optim.Adam(self.parameters(), lr=0.001)
