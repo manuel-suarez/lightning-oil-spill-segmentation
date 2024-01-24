@@ -23,15 +23,15 @@ model = OilSpillModule.load_from_checkpoint(args.checkpoint)
 model.eval()
 
 # Open image file
-filename = os.path.join(img_dir, f"{keyfile}_norm.tif")
-normimage = np.array(Image.open(filename))
+normfile = os.path.join(img_dir, f"{keyfile}_norm.tif")
+normimage = np.array(Image.open(normfile))
 
-print(filename, normimage.shape)
+print(normfile, normimage.shape)
 # Open variance file
-filename = os.path.join(img_dir, f"{keyfile}_var.tif")
-varimage = np.array(Image.open(args.varfilename))
+varfile = os.path.join(img_dir, f"{keyfile}_var.tif")
+varimage = np.array(Image.open(varfile))
 
-print(filename, varimage.shape)
+print(varfile, varimage.shape)
 # Compose multichannel image
 
 # Predict
