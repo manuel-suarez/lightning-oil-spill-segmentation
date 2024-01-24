@@ -31,8 +31,7 @@ dataset = OilSpillPredictionDataset(args.imagedir, args.imagekey)
 dataloader = DataLoader(dataset, batch_size=67, shuffle=False, num_workers=os.cpu_count()//2)
 trainer = L.Trainer(devices=1)
 predictions = trainer.predict(model, dataloader)
-for p in predictions:
-    print(p.shape)
+print(type(predictions))
 #predictions = np.array(predictions)
 #print(predictions.shape)
 
