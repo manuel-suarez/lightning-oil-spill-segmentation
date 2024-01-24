@@ -3,6 +3,7 @@ import argparse
 import logging
 import numpy as np
 import lightning as L
+from einops import rearrange
 from module import OilSpillModule
 from dataset import OilSpillPredictionDataset
 from torch.utils.data import DataLoader
@@ -36,5 +37,7 @@ print(type(predictions[0]))
 predictions = np.array([p.numpy() for p in predictions])
 print(predictions.shape)
 
+result = rearrange(predictions, 'i j c h w -> c (i * h) (j * w)')
+print(result.shape)
 #print(predictions)
 print("Done!")
