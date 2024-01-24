@@ -1,6 +1,7 @@
 import os
 import argparse
 import logging
+import numpy as np
 import lightning as L
 from module import OilSpillModule
 from dataset import OilSpillPredictionDataset
@@ -30,8 +31,8 @@ dataset = OilSpillPredictionDataset(args.imagedir, args.imagekey)
 dataloader = DataLoader(dataset, batch_size=67, shuffle=False, num_workers=os.cpu_count()//2)
 trainer = L.Trainer(devices=1)
 predictions = trainer.predict(model, dataloader)
+predictions = np.array(predictions)
+print(predictions.shape)
 
-print(len(predictions))
-print(predictions[0].shape)
 #print(predictions)
 print("Done!")
