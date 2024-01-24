@@ -138,7 +138,6 @@ class OilSpillModule(LightningModule):
         }
 
     def predict_step(self, batch, batch_idx, dataloader_idx=0):
-        print(f"Prediction step, batch id: {batch_idx}, dataloader_id: {dataloader_idx}")
         return self(batch.float())
 
     def configure_optimizers(self):
