@@ -8,6 +8,7 @@ from segmentation_models_pytorch.losses import DiceLoss, BINARY_MODE
 class OilSpillModule(LightningModule):
     def __init__(self, arch, encoder_name, in_channels, classes, **kwargs):
         super().__init__()
+        self.save_hyperparameters()
         self.model = create_model(
             arch=arch,
             encoder_name=encoder_name,
