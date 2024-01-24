@@ -1,13 +1,9 @@
 import os
 import argparse
-import numpy as np
-import torch
+import logging
 import lightning as L
-from tqdm import tqdm
-from PIL import Image
 from module import OilSpillModule
 from dataset import OilSpillPredictionDataset
-from torchvision import transforms
 from torch.utils.data import DataLoader
 
 # Parse arguments
@@ -20,6 +16,9 @@ parser.add_argument('checkpoint')
 parser.add_argument('imagedir')
 parser.add_argument('imagekey')
 args = parser.parse_args()
+# logging
+logging.basicConfig(filename=f"{args.imagekey}_predict.log", filemode='w',
+                    format='%(asctime)s: %(name)s %(levelname)s - %(message)s', level=logging.INFO)
 
 # Load checkpoint
 model = OilSpillModule.load_from_checkpoint(args.checkpoint)

@@ -1,4 +1,5 @@
 import os
+import logging
 import itertools
 import numpy as np
 import pandas as pd
@@ -87,7 +88,7 @@ class OilSpillPredictionDataset(Dataset):
 
     def __getitem__(self, index):
         (j,i) = self.ranges[index]
-        print(f"Getting {index} patch, (j,i)=({j},{i})")
+        logging.info(f"Getting {index} patch, (j,i)=({j},{i})")
 
         x = self.patch_width * i
         y = self.patch_height * j
