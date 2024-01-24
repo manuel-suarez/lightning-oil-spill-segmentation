@@ -32,4 +32,5 @@ dataloader = DataLoader(dataset, batch_size=64, shuffle=False, num_workers=os.cp
 trainer = L.Trainer()
 predictions = trainer.predict(model, dataloader)
 
+print(predictions.shape)
 print("Done!")
