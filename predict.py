@@ -24,6 +24,7 @@ print(f"Images dir: {img_dir}")
 # Load checkpoint
 model = OilSpillModule.load_from_checkpoint(args.checkpoint)
 model.eval()
+model.float()
 
 # Open image file
 normfile = os.path.join(img_dir, f"{keyfile}_norm.tif")
