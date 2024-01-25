@@ -4,7 +4,7 @@ import torch
 import logging
 from lightning import LightningModule
 from segmentation_models_pytorch import create_model
-from segmentation_models_pytorch.metrics import get_stats, accuracy
+from segmentation_models_pytorch.metrics import get_stats, accuracy, iou_score
 from segmentation_models_pytorch.losses import DiceLoss, BINARY_MODE
 
 class OilSpillModule(LightningModule):
@@ -52,22 +52,17 @@ class OilSpillModule(LightningModule):
         tp, fp, fn, tn = get_stats(preds.long(), label.long(), mode="binary")
         # Accuracy
         acc = accuracy(tp, fp, fn, tn, reduction="micro")
+        iou = iou_score(tp, fp, fn, tn, reduction="micro")
         self.log_dict({
             "train_loss": loss,
-            "train_acc": acc
+            "train_acc": acc,
+            "train_iou": iou
         },
             sync_dist=True,
             prog_bar=True
         )
 
-        return {
-            "loss": loss,
-            #"acc": acc,
-            "tp": tp,
-            "fp": fp,
-            "fn": fn,
-            "tn": tn
-        }
+        return loss
 
     def validation_step(self, batch, batch_idx):
         image, label = batch
@@ -95,22 +90,17 @@ class OilSpillModule(LightningModule):
         tp, fp, fn, tn = get_stats(preds.long(), label.long(), mode="binary")
         # Accuracy
         acc = accuracy(tp, fp, fn, tn, reduction="micro")
+        iou = iou_score(tp, fp, fn, tn, reduction="micro")
         self.log_dict({
-                "valid_loss": loss,
-                "valid_acc": acc
-            },
+            "valid_loss": loss,
+            "valid_acc": acc,
+            "valid_iou": iou
+        },
             sync_dist=True,
             prog_bar=True
         )
 
-        return {
-            "loss": loss,
-            # "acc": acc,
-            "tp": tp,
-            "fp": fp,
-            "fn": fn,
-            "tn": tn
-        }
+        return loss
 
     def test_step(self, batch, batch_idx):
         image, label = batch
@@ -136,18 +126,18 @@ class OilSpillModule(LightningModule):
         # IoU
         tp, fp, fn, tn = get_stats(preds.long(), label.long(), mode="binary")
         # Accuracy
-        # acc = accuracy(tp, fp, fn, tn)
-        # self.log("acc", acc)
-        self.log("test_loss", loss, sync_dist=True)
+        acc = accuracy(tp, fp, fn, tn, reduction="micro")
+        iou = iou_score(tp, fp, fn, tn, reduction="micro")
+        self.log_dict({
+            "test_loss": loss,
+            "test_acc": acc,
+            "test_iou": iou
+        },
+            sync_dist=True,
+            prog_bar=True
+        )
 
-        return {
-            "loss": loss,
-            # "acc": acc,
-            "tp": tp,
-            "fp": fp,
-            "fn": fn,
-            "tn": tn
-        }
+        return loss
 
     def predict_step(self, batch, batch_idx, dataloader_idx=0):
         probs = self(batch.float()).sigmoid()
