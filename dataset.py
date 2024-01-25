@@ -4,7 +4,7 @@ import itertools
 import numpy as np
 import pandas as pd
 from torch.utils.data import Dataset, DataLoader
-from skimage.io import imread
+from PIL import Image
 
 class OilSpillTrainingDataset(Dataset):
     # List of classes (binary segmentation)
@@ -38,16 +38,19 @@ class OilSpillTrainingDataset(Dataset):
         image = np.zeros(self.dims, dtype=np.float32)
         for j, feature in enumerate(self.featuresChannels):
             feature_path = os.path.join(self.featuresPath, feature, key + self.featureExt)
-            feature_image = imread(feature_path, as_gray=True).astype(np.float32)
+            #feature_image = imread(feature_path, as_gray=True).astype(np.float32)
+            feature_image = np.array(Image.open(feature_path))
 
             image[...,j] = feature_image
         # Convert to pytorch format: HWC -> CHW
         image = np.moveaxis(image, -1, 0)
         # Open label
         label_path = os.path.join(self.labelsPath, key + self.labelExt)
-        label = np.zeros((self.dims[0], self.dims[1], 1))
-        label[...,0] = imread(label_path, as_gray=True).astype(np.float32)/255.0
-        label = np.moveaxis(label, -1, 0)
+        label = np.array(Image.open(label_path))
+        label = np.expand_dims(image, 0)
+        #label = np.zeros((self.dims[0], self.dims[1], 1))
+        #label[...,0] = imread(label_path, as_gray=True).astype(np.float32)/255.0
+        #label = np.moveaxis(label, -1, 0)
         # Return data
         return image, label
 
