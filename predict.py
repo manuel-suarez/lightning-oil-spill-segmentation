@@ -8,7 +8,6 @@ from einops import rearrange
 from module import OilSpillModule
 from dataset import OilSpillPredictionDataset
 from torch.utils.data import DataLoader
-from skimage.io import imsave
 
 # Parse arguments
 parser = argparse.ArgumentParser(
@@ -16,7 +15,6 @@ parser = argparse.ArgumentParser(
     description='Segmentation on Cimat oil spill dataset',
     epilog='With a great power comes a great responsability'
 )
-parser.add_argument('checkpoint')
 parser.add_argument('imagedir')
 parser.add_argument('imagekey')
 parser.add_argument('num_epochs')
@@ -28,7 +26,8 @@ logging.basicConfig(filename=os.path.join(base_dir, f"{args.imagekey}_predict.lo
                     format='%(message)s', level=logging.INFO)
 
 # Load checkpoint
-model = OilSpillModule.load_from_checkpoint(args.checkpoint)
+ckpt_fname = os.path.join(base_dir, 'resnet34.ckpt')
+model = OilSpillModule.load_from_checkpoint(ckpt_fname)
 model.eval()
 model.float()
 
