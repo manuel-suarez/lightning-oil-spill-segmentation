@@ -138,7 +138,7 @@ class OilSpillModule(LightningModule):
         }
 
     def predict_step(self, batch, batch_idx, dataloader_idx=0):
-        return self(batch.float())
+        return self(batch.float()).sigmoid()
 
     def configure_optimizers(self):
         return torch.optim.Adam(self.parameters(), lr=0.001)
