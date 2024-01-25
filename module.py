@@ -5,7 +5,7 @@ import logging
 from lightning import LightningModule
 from segmentation_models_pytorch import create_model
 from segmentation_models_pytorch.metrics import get_stats, accuracy, iou_score
-from segmentation_models_pytorch.losses import DiceLoss, BINARY_MODE
+from segmentation_models_pytorch.losses import SoftBCEWithLogitsLoss, DiceLoss, BINARY_MODE
 
 class OilSpillModule(LightningModule):
     def __init__(self, arch, encoder_name, in_channels, classes, **kwargs):
@@ -21,7 +21,8 @@ class OilSpillModule(LightningModule):
         self.classes = classes
 
         # Segmentation loss (default binary_crossentropy)
-        self.loss_fn = DiceLoss(BINARY_MODE, from_logits=True)
+        #self.loss_fn = DiceLoss(BINARY_MODE, from_logits=True)
+        self.loss_fn = SoftBCEWithLogitsLoss()
 
     def forward(self, image):
         return self.model(image)
