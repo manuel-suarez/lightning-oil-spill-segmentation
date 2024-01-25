@@ -53,7 +53,7 @@ def process(base_dir, input_dir, output_dir, arch, encoder, train_dataset, cross
                         num_nodes=1,
                         strategy="ddp")
     trainer.fit(model, train_dataloaders=train_dataloader, val_dataloaders=valid_dataloader)
-    trainer.save_checkpoint(os.path.join(base_dir, f"{encoder}_{num_epochs}epochs.ckpt"))
+    trainer.save_checkpoint(os.path.join(base_dir, f"{encoder}.ckpt"))
 
     logging.info("4.- Model testing")
     trainer.test(model, dataloaders=test_dataloader)
@@ -77,7 +77,7 @@ if __name__ == '__main__':
     parser.add_argument('num_epochs')
     args = parser.parse_args()
     arch = args.arch
-    base_dir = os.path.join(f"results_{args.num_epochs}epochs", arch)
+    base_dir = os.path.join(f"results_{args.num_epochs}_epochs", arch)
     if not os.path.exists(base_dir):
         os.makedirs(base_dir, exist_ok=True)
     logging.basicConfig(filename=os.path.join(base_dir, "app.log"), filemode='w', format='%(asctime)s: %(name)s %(levelname)s - %(message)s', level=logging.INFO)

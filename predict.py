@@ -19,9 +19,12 @@ parser = argparse.ArgumentParser(
 parser.add_argument('checkpoint')
 parser.add_argument('imagedir')
 parser.add_argument('imagekey')
+parser.add_argument('num_epochs')
+parser.add_argument('arch')
 args = parser.parse_args()
 # logging
-logging.basicConfig(filename=f"{args.imagekey}_predict.log", filemode='w',
+base_dir = os.path.join(f"results_{args.num_epochs}_epochs", args.arch)
+logging.basicConfig(filename=os.path.join(base_dir, f"{args.imagekey}_predict.log"), filemode='w',
                     format='%(message)s', level=logging.INFO)
 
 # Load checkpoint
@@ -44,5 +47,5 @@ print(result.shape, np.max(result), np.min(result), np.count_nonzero(result == 2
 result = np.squeeze(result, -1)
 
 #imsave(f"{args.imagekey}_result.png", result)
-Image.fromarray(result).save(f"{args.imagekey}_result.png")
+Image.fromarray(result).save(os.path.join(base_dir, f"{args.imagekey}_result.png"))
 print("Done!")
