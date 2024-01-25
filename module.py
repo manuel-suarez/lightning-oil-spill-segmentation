@@ -51,9 +51,14 @@ class OilSpillModule(LightningModule):
         # IoU
         tp, fp, fn, tn = get_stats(preds.long(), label.long(), mode="binary")
         # Accuracy
-        #acc = accuracy(tp, fp, fn, tn)
-        #self.log("acc", acc)
-        self.log("train_loss", loss, sync_dist=True)
+        acc = accuracy(tp, fp, fn, tn, reduction="micro")
+        self.log_dict({
+            "train_loss": loss,
+            "train_acc": acc
+        },
+            sync_dist=True,
+            prog_bar=True
+        )
 
         return {
             "loss": loss,
@@ -89,9 +94,14 @@ class OilSpillModule(LightningModule):
         # IoU
         tp, fp, fn, tn = get_stats(preds.long(), label.long(), mode="binary")
         # Accuracy
-        # acc = accuracy(tp, fp, fn, tn)
-        # self.log("acc", acc)
-        self.log("valid_loss", loss, sync_dist=True)
+        acc = accuracy(tp, fp, fn, tn, reduction="micro")
+        self.log_dict({
+                "valid_loss": loss,
+                "valid_acc": acc
+            },
+            sync_dist=True,
+            prog_bar=True
+        )
 
         return {
             "loss": loss,
