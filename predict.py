@@ -41,5 +41,5 @@ print(predictions.shape)
 result = rearrange(predictions, 'i j c h w -> (i h) (j w) c')
 print(result.shape, np.max(result), np.min(result))
 
-imsave(f"{args.imagekey}_result.png")
+imsave(f"{args.imagekey}_result.png", result)
 print("Done!")
