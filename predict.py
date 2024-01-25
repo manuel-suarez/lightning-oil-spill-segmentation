@@ -3,6 +3,7 @@ import argparse
 import logging
 import numpy as np
 import lightning as L
+from PIL import Image
 from einops import rearrange
 from module import OilSpillModule
 from dataset import OilSpillPredictionDataset
@@ -42,5 +43,6 @@ result = rearrange(predictions, 'i j c h w -> (i h) (j w) c')
 print(result.shape, np.max(result), np.min(result))
 result = np.squeeze(result, -1)
 
-imsave(f"{args.imagekey}_result.png", result)
+#imsave(f"{args.imagekey}_result.png", result)
+Image.fromarray(result).save(f"{args.imagekey}_result.png")
 print("Done!")
