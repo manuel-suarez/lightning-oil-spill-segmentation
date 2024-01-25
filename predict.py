@@ -35,7 +35,7 @@ trainer = L.Trainer(devices=1)
 predictions = trainer.predict(model, dataloader)
 print(type(predictions))
 print(type(predictions[0]))
-predictions = np.array([p.numpy() for p in predictions])
+predictions = np.array([p.numpy()*255 for p in predictions])
 print(predictions.shape)
 
 result = rearrange(predictions, 'i j c h w -> (i h) (j w) c')
