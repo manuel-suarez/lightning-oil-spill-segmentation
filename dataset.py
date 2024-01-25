@@ -60,10 +60,12 @@ class OilSpillPredictionDataset(Dataset):
         # Open and prepare multichannel image
         base_dir = os.path.join(image_dir, image_key)
         normfile = os.path.join(base_dir, f"{image_key}_norm.tif")
-        normimage = imread(normfile, as_gray=True).astype(np.float16)
+        #normimage = imread(normfile, as_gray=True).astype(np.float16)
+        normimage = np.array(Image.open(normfile))
         print(f"Norm image shape: {normimage.shape}")
         varfile = os.path.join(base_dir, f"{image_key}_var.tif")
-        varimage = imread(varfile, as_gray=True).astype(np.float16)
+        #varimage = imread(varfile, as_gray=True).astype(np.float16)
+        varimage = np.array(Image.open(varfile))
         print(f"Var image shape: {varimage.shape}")
 
         self.heigth = normimage.shape[0]
