@@ -40,7 +40,7 @@ predictions = np.array([p.numpy().astype(np.int32)*255 for p in predictions])
 print(predictions.shape)
 
 result = rearrange(predictions, 'i j c h w -> (i h) (j w) c')
-print(result.shape, np.max(result), np.min(result))
+print(result.shape, np.max(result), np.min(result), np.count_nonzero(result == 255))
 result = np.squeeze(result, -1)
 
 #imsave(f"{args.imagekey}_result.png", result)
