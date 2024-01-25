@@ -46,7 +46,7 @@ class OilSpillTrainingDataset(Dataset):
         image = np.moveaxis(image, -1, 0)
         # Open label
         label_path = os.path.join(self.labelsPath, key + self.labelExt)
-        label = np.array(Image.open(label_path))
+        label = np.array(Image.open(label_path))/255.0
         label = np.expand_dims(label, 0)
         #label = np.zeros((self.dims[0], self.dims[1], 1))
         #label[...,0] = imread(label_path, as_gray=True).astype(np.float32)/255.0
