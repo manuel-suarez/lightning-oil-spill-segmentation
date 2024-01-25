@@ -11,7 +11,7 @@
 
 # Dataset Cimat paths
 num_dataset=20
-num_epochs=20
+num_epochs=5
 base=$HOME
 dataset=$base/data/projects/consorcio-ia/data/oil_spills_17
 input_path=$dataset/augmented_dataset
