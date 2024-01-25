@@ -125,7 +125,7 @@ def create_datasets(data_dir, train_dataset, cross_dataset, test_dataset):
 
 def create_dataloaders(n_cpu, train_dataset, valid_dataset, test_dataset):
     return (
-        DataLoader(train_dataset, batch_size=64, shuffle=True, num_workers=n_cpu//2),
-        DataLoader(valid_dataset, batch_size=64, shuffle=False, num_workers=n_cpu//2),
-        DataLoader(test_dataset, batch_size=64, shuffle=False, num_workers=n_cpu//2)
+        DataLoader(train_dataset, batch_size=1, shuffle=True, num_workers=n_cpu//2),
+        DataLoader(valid_dataset, batch_size=1, shuffle=False, num_workers=n_cpu//2),
+        DataLoader(test_dataset, batch_size=1, shuffle=False, num_workers=n_cpu//2)
     )

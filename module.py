@@ -22,8 +22,8 @@ class OilSpillModule(LightningModule):
 
         # Segmentation loss (default binary_crossentropy)
         #self.loss_fn = DiceLoss(BINARY_MODE, from_logits=True)
-        #self.loss_fn = SoftBCEWithLogitsLoss()
-        self.loss_fn = JaccardLoss(BINARY_MODE, from_logits=True)
+        self.loss_fn = SoftBCEWithLogitsLoss()
+        #self.loss_fn = JaccardLoss(BINARY_MODE, from_logits=True)
 
     def forward(self, image):
         return self.model(image)
