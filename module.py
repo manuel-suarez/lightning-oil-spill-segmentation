@@ -35,6 +35,7 @@ class OilSpillModule(LightningModule):
         assert image.shape == (bs, 3, h, w) # Multichannel dataset
 
         #label = batch["label"]
+        print(label.ndim, label.shape)
         assert label.ndim == 4
         assert label.shape == (bs, self.classes, h, w)
 
