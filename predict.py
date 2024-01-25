@@ -46,5 +46,5 @@ print(result.shape, np.max(result), np.min(result), np.count_nonzero(result == 2
 result = np.squeeze(result, -1)
 
 #imsave(f"{args.imagekey}_result.png", result)
-Image.fromarray(result).save(os.path.join(base_dir, f"{args.imagekey}_result.png"))
+Image.fromarray(result).save(os.path.join(base_dir, 'results', f"{args.imagekey}_result.png"))
 print("Done!")
