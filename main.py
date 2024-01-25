@@ -77,7 +77,7 @@ if __name__ == '__main__':
     parser.add_argument('num_epochs')
     args = parser.parse_args()
     arch = args.arch
-    base_dir = os.path.join("results", arch)
+    base_dir = os.path.join(f"results_{args.num_epochs}epochs", arch)
     if not os.path.exists(base_dir):
         os.makedirs(base_dir, exist_ok=True)
     logging.basicConfig(filename=os.path.join(base_dir, "app.log"), filemode='w', format='%(asctime)s: %(name)s %(levelname)s - %(message)s', level=logging.INFO)
